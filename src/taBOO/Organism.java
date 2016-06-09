@@ -8,7 +8,7 @@ public class Organism {
 	
 	
 	/**
-	 * Organism identifier. Taken from the FASATA file name.
+	 * Organism identifier. Taken from the FASTA file name.
 	 * @param args
 	 */
 	private String gi;
