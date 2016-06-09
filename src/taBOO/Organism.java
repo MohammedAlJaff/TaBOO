@@ -1,5 +1,6 @@
 package taBOO;
 
+import java.io.*;
 import java.util.*;
 
 public class Organism {
@@ -24,24 +25,50 @@ public class Organism {
 	 */
 	private Organism(String url) {
 		
-		/*
-		 * Process file and send content to fasta spliter.
-		 */
+		try {
+			
+			File f = new File(url);
+			
+			partialOrganismListCreator(fastaSpliter(f));
 		
-		
-		// FASTASplitter
-		
-		
-		
+		} catch(Exception exp){
+			
+			exp.printStackTrace();
+		}	
 	}
 	
 	// Methods:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
-	static partialOrganismListCreator(List<String> fastaChunks){
+	
+
+	/**
+	 * This method takes in a fasta file url and  segments it into it's constituent header+body parts
+	 * By this we mean that the reutrn is a list of Strings where each string is a single header + sequence body.
+	 * @param f
+	 * @return
+	 */
+	
+	static List<String> fastaSpliter(File fileUrl){
+		
+		
+		List<String> temp = new ArrayList<String>();
+	
+		return temp;
+			
+	}
+	
+	
+	
+	/**
+	 *  This method takes in a list of
+	 * @param fastaChunks
+	 */
+	static void partialOrganismListCreator(List<String> fastaChunks){
 			
 		List<PartialOrganism> temp = new ArrayList<PartialOrganism>();
 
 	}
+
 	
 	
 	
