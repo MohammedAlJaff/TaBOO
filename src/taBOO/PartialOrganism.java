@@ -8,12 +8,12 @@ public class PartialOrganism {
 	private String gi;
 	
 	/**
-	 * Sequence of
+	 * Sequence
 	 */
 	private String seq;
 	
 	/**
-	 * 
+	 * The reverse sequence
 	 */
 	private String revSeq;
 	
