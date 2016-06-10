@@ -2,10 +2,6 @@ package taBOO;
 
 public class FastaChunk {
 
-	
-	
-	
-	
 	private String head;
 	private String body;
 	
@@ -28,26 +24,31 @@ public class FastaChunk {
 	private static String[] guillotine(String s) throws FastaChunkException {
 			
 		String[] temp = s.split("\n"); 
-
-		if (temp.length==2) {
-			return temp;
-		} else {
-			Exception e = new FastaChunkException();
-			throw (new FastaChunkException());
+		
+		String head = temp[0];
+		String body = "";
+		
+		for (int i=1; i<temp.length;i++) {
+			body = body+temp[i];
 		}
-	
+		
+		
+		String[] whole = new String[2];
+		whole[0] = head;
+		whole[1] = body;
+		
+		return whole;
 	
 	}
 	
 	
-	
-	static FastaChunk fastaChunckCreator(String string) {
+	public static FastaChunk fastaChunckCreator(String string) {
 		
 		return new FastaChunk(string);
 	}
 	
 	// 
-	public String getHead() throws FastaChunkException {
+	public String getHead()  {
 		if (head != null) {
 			return head;	
 		} else {
@@ -61,11 +62,12 @@ public class FastaChunk {
 	public String getBody() {
 		return body;
 	}
+
+	public String toString() {
 	
-	
-	
-	
-	
+			return this.getHead()+"\n"+this.getBody();
+	}
+
 	public static class FastaChunkException extends Exception {
 		
 		public FastaChunkException() {
@@ -80,8 +82,9 @@ public class FastaChunk {
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
 	
-		String s = ">blablabl\nAAABBBAAA";
+		String s = ">blablabl\nAAABBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAA";
 		
+		System.out.println(s);
 		System.out.println("------------------------------");
 		// Test. FastaChunck;
 		
