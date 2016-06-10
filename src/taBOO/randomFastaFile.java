@@ -1,6 +1,8 @@
 package taBOO;
 
+import java.io.*;
 import java.util.Random;
+
 
 public class randomFastaFile {
 
@@ -20,6 +22,9 @@ public class randomFastaFile {
 	private String fastaFile;
 	private int lineLength;
 	
+	/**
+	 * Generates a fasta file with default parameters
+	 */
 	public randomFastaFile() {
 		numberOfFiles++;
 		this.range = defaultRange;
@@ -32,7 +37,7 @@ public class randomFastaFile {
 	}
 	
 	/**
-	 * Hello
+	 * Generates a fasta file based on specified parameters
 	 * @param filename name of file
 	 * @param length length of each chunk body
 	 * @param range range of each chunk body (0.0 - 1.0)
@@ -54,6 +59,11 @@ public class randomFastaFile {
 		this.fastaFile = fastaGenerator();
 	}
 	
+	/**
+	 * Generates a String representing the contents of a fasta file
+	 * as specified by the parameters given to the constructor.
+	 * @return a String representing the fasta file contents
+	 */
 	private String fastaGenerator() {
 		StringBuilder fasta = new StringBuilder();
 		
@@ -62,9 +72,34 @@ public class randomFastaFile {
 			String seq = chopSeq(sequenceGenerator());
 			fasta.append(header + seq + "\n");
 		}
-		return fasta.toString();
+		
+		//return fasta.toString();
+		return removeLineBreaks(fasta);
 	}
 	
+	/**
+	 * Removes line breaks (\n) from the end of a String.
+	 * @param seq The string to remove line breaks from
+	 * @return The same String but with removed line breaks at the end
+	 */
+	private String removeLineBreaks(StringBuilder seq) {
+		for(int i = seq.length()-1; i >= 0; i--) {
+			if(seq.charAt(i) == '\n') {
+				seq.deleteCharAt(i);
+			}
+			else {
+				return seq.toString();
+			}
+		}
+		return seq.toString();
+	}
+	
+	/**
+	 * Breaks a sequence into chunks based on parameter {@link randomFastaFile#lineLength}, 
+	 * by adding line breaks (\n).
+	 * @param seq The sequence to chop up
+	 * @return The same sequence, with line breaks added
+	 */
 	private String chopSeq(String seq) {
 		StringBuilder newSeq = new StringBuilder(seq.length());
 		
@@ -82,6 +117,12 @@ public class randomFastaFile {
 		return ">Sequence " + i + "\n";
 	}
 	
+	/**
+	 * Generates a random sequence of {@link length} specified by the parameters in the constructor.
+	 * The length of generated sequence varies with the {@link range} parameter.
+	 * What bases to include is specified by {@link onlyATCG}.
+	 * @return
+	 */
 	private String sequenceGenerator() {
 		StringBuilder seq = new StringBuilder(this.length);
 		String[] bases;
@@ -94,12 +135,20 @@ public class randomFastaFile {
 			bases = tempBases;
 		}
 		
-		for(int i = 0; i < this.length; i++) {
+		
+		for(int i = 0; i < trueLength(); i++) {
 			String base = bases[(int)(Math.random()*bases.length)];
 			seq.append(base);
 		}
 		
 		return seq.toString();
+	}
+	
+	private int trueLength() {
+		if(Math.random() > 0.5) {
+			return (int) (this.length*(1+(Math.random()*this.range)));
+		}
+		return (int) (this.length*(1-(Math.random()*this.range)));
 	}
 	
 	private void checkParameters() {
@@ -125,16 +174,32 @@ public class randomFastaFile {
 			   "length:		" + this.length + "\n" +
 			   "range:		" + this.range + "\n" +
 			   "chunks:		" + this.chunks + "\n" +
-			   "lineLength:	" + this.lineLength + "\n" +;
+			   "lineLength:	" + this.lineLength + "\n" +
+			   "onlyATCG:	" + this.onlyATCG + "\n";
 	}
 	
 	public String toString() {
 		return fastaFile;
 	}
 	
+	public void toFile() {
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(this.filename)));
+			bw.write(fastaFile);
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
-		randomFastaFile f = new randomFastaFile("test", 100, 0.1, 4, true, 40);
+		randomFastaFile f = new randomFastaFile("test.txt", -10, 0, 10, true, 80);
+		
+		//randomFastaFile f = new randomFastaFile();
+		//System.out.println(f.printParameters());
 		//System.out.println(f);
+		f.toFile();
 	}
 	
 }
