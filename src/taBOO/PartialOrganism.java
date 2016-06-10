@@ -1,47 +1,87 @@
 package taBOO;
 
+import taBOO.FastaChunk.FastaChunkException;
+
 public class PartialOrganism {
 	
 	/**
-	 * identifier
+	 * Identifier for the partial organism, e.g ">E.coli, chromosome 2".
 	 */
 	private String gi;
 	
 	/**
-	 * Sequence
+	 * Sequence for the partial organism, e.g "ATGCGATG".
 	 */
 	private String seq;
 	
 	/**
-	 * The reverse sequence
+	 * The reverse sequence of the {@link PartialOrganism#seq} field.
 	 */
 	private String revSeq;
 	
 	/**
-	 * 
-	 * @param fastaChunk
+	 * Generates a complete PartialOrganism object. This means generating an identifier, a sequence
+	 * and the reverse sequence. This constructor also handles any non-canonical bases by....
+	 * @param fastaChunk a String consisting of a fasta header and a sequence body
+	 * @throws FastaChunkException 
 	 */
-	public PartialOrganism(String fastaChunk) {
-		fastaSplitter(fastaChunk);
-	}
-
-	/**
-	 * 
-	 * @param fastaChunk
-	 */
-	private void fastaSplitter(String fastaChunk) {
-		String[] headAndShoulders= fastaChunk.split("\n");
-		gi = headAndShoulders[0];
-		StringBuilder sb = new StringBuilder();
-		
-		for(int i = 1; i < headAndShoulders.length; i++) {
-			sb.append(headAndShoulders[i]);
-		}
-		seq = sb.toString();
+	public PartialOrganism(FastaChunk chunk) throws FastaChunkException {
+		gi = chunk.getHead();
+		seq = SequenceTools.baseFixer(chunk.getBody());
+		revSeq = SequenceTools.reverseStrandCreator(seq);
+		//TODO baseFixer, revSeq
 	}
 	
-	public static void main() {
-		
+	/**
+	 * Generates the identifier and sequence of a PartialOrganism object from a fasta chunk.
+	 * <br><br>The String:<br> ">header<br>ATGAGTAG"<br> would set the gi to ">header" and seq to "ATGAGTAG".
+	 * @param fastaChunk a String consisting of a fasta header 
+	 * and a sequence body, separated by a line break
+	 */
+//	private void Guilliotine(String fastaChunk) {
+//		try {
+//		String[] headAndShoulders= fastaChunk.split("\n");
+//		gi = headAndShoulders[0];
+//		seq = headAndShoulders[1];
+//		}
+//		catch (Exception e) {
+//			System.out.println("fml");
+//		}
+//	}
+	
+	/**
+	 * Gets the gi number of the partial organism
+	 * @return the gi number of the partial organism, {@link PartialOrganism#gi}
+	 */
+	public String getGi() {
+		return gi;
+	}
+	
+	/**
+	 * Gets the sequence of the partial organism
+	 * @return the sequence of the partial organism, {@link PartialOrganism#seq}
+	 */
+	public String getSeq() {
+		return seq;
+	}
+	
+	/**
+	 * Gets the reverse sequence of the partial organism
+	 * @return the reverse sequence of the partial organism, {@link PartialOrganism#revSeq}
+	 */
+	public String getRevSeq() {
+		return revSeq;
+	}
+	
+	/**
+	 * Returns the identifier, sequence and reverse sequence of the partial organism<br><br>
+	 * Example:<br>
+	 * >E.coli, chromosome 2<br>
+	 * Seq: &emsp; ATGAT<br>
+	 * revSeq: TACTA
+	 */
+	public String toString() {
+		return gi + "\n" + "Seq: " + seq + "\nRevSeq: " + revSeq;
 	}
 	
 }
