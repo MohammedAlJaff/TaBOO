@@ -3,23 +3,23 @@ package taBOO;
 import java.io.*;
 import java.util.*;
 
+import taBOO.FastaChunk.FastaChunkException;
+
 public class Organism {
-	
-	
+
 	
 	/**
 	 * Organism identifier. Taken from the FASTA file name.
 	 * @param args
 	 */
 	private String gi;
-	
 	/**
 	 * 
 	 */
 	List<PartialOrganism> partialGenomes;
 	
 	
-	//Constructors ////////////////////////////////////////////////////////
+	//Constructors ::::::::::::::::::::::::::::::::::::::::::::::::::::
 	/*
 	 * Not Done
 	 */
@@ -28,7 +28,7 @@ public class Organism {
 		try {
 			
 			File f = new File(url);
-			
+			this.gi = url;
 			partialOrganismListCreator(fastaSpliter(f));
 		
 		} catch(Exception exp){
@@ -39,8 +39,6 @@ public class Organism {
 	
 	// Methods:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
-	
-
 	/**
 	 * This method takes in a fasta file url and  segments it into it's constituent header+body parts
 	 * By this we mean that the reutrn is a list of Strings where each string is a single header + sequence body.
@@ -48,7 +46,7 @@ public class Organism {
 	 * @return
 	 * @throws IOException 
 	 */
-	static public List<FastaChunk> fastaSpliter(File fileURL) throws IOException{
+	private static List<FastaChunk> fastaSpliter(File fileURL) throws IOException{
 		
 		List<String> temp = new ArrayList<String>();
 		List<FastaChunk> tempFC = new ArrayList<FastaChunk>();
@@ -91,52 +89,59 @@ public class Organism {
 		return returnTempFC;		
 	}
 	
-	
-	
 	/**
 	 *This method takes in a list of
 	 * @param fastaChunks
+	 * @throws FastaChunkException 
 	 */
-	private void partialOrganismListCreator(List<FastaChunk> fastaChunks){
+	private void partialOrganismListCreator(List<FastaChunk> fastaChunks) throws FastaChunkException{
 			
-		List<PartialOrganism> temp = new ArrayList<PartialOrganism>();
+		List<PartialOrganism> temp = new ArrayList<PartialOrganism>(fastaChunks.size());
+		
+		for (int i =0; i<fastaChunks.size(); i++) {
+			temp.add(new PartialOrganism(fastaChunks.get(i)));
+		}
 		
 		this.partialGenomes = temp;
 		
 	}
 
+	public List<PartialOrganism> getPartials(){
+		
+		List<PartialOrganism> temp = new ArrayList<PartialOrganism>(this.partialGenomes.size());
+		
+		for(PartialOrganism p: this.partialGenomes) {
+			temp.add(PartialOrganism.PartialOrganismFactory(p));
+		}
+		
+		
+		return temp;
+	}
+	
 
-	
-	
-	
-
+	// MAIN :::::::::::::::::::::::::::::::::::::::::::::::::::::
 	public static void main(String [] args) throws IOException{
 		// TODO Auto-generated method stub
 		
 		// FastaSpliter test
 		
+		// Test Organism creator.
 		
-		File file = new File("text1.txt");
-		FileReader fw = new FileReader(file);
-		BufferedReader bw = new BufferedReader(fw);
+		Organism x = new Organism("text1.txt");
 		
+		System.out.println("Printing all partials");
+		System.out.println("-------------------------------");
+		List<PartialOrganism> p = x.getPartials();
 		
-		List<FastaChunk> x = new ArrayList<FastaChunk>();
-		
-		
-		x = fastaSpliter(file);
-		
-		for(FastaChunk e: x) {
+		for( PartialOrganism a: p){
+			System.out.println(a+"\n");
 			
-			System.out.println(e);
-			//System.out.println(e.getHead());
-			//System.out.println(e.getBody());
-						
 		}
 		
 		
 		
 		
-	}
+		
+	}// end main
 
-}
+}//end class

@@ -32,6 +32,15 @@ public class PartialOrganism {
 		//TODO baseFixer, revSeq
 	}
 	
+	private PartialOrganism(PartialOrganism p) {
+		
+		this.gi = p.getGi();
+		this.seq = p.getSeq();
+		this.revSeq = p.getRevSeq();
+	}
+	
+	
+	
 	/**
 	 * Generates the identifier and sequence of a PartialOrganism object from a fasta chunk.
 	 * <br><br>The String:<br> ">header<br>ATGAGTAG"<br> would set the gi to ">header" and seq to "ATGAGTAG".
@@ -74,6 +83,15 @@ public class PartialOrganism {
 	}
 	
 	/**
+	 * Creates a and returns a clone of the input PartialOrganism
+	 */
+	public static PartialOrganism PartialOrganismFactory(PartialOrganism p) {
+		
+		return new PartialOrganism(p);
+	}
+	
+	
+	/**
 	 * Returns the identifier, sequence and reverse sequence of the partial organism<br><br>
 	 * Example:<br>
 	 * >E.coli, chromosome 2<br>
@@ -81,7 +99,7 @@ public class PartialOrganism {
 	 * revSeq: TACTA
 	 */
 	public String toString() {
-		return gi + "\n" + "Seq: " + seq + "\nRevSeq: " + revSeq;
+		return gi + "\n" + "Seq:\t" + seq + "\nRevSeq:\t" + revSeq;
 	}
 	
 }

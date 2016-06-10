@@ -68,6 +68,14 @@ public class FastaChunk {
 			return this.getHead()+"\n"+this.getBody();
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 	public static class FastaChunkException extends Exception {
 		
 		public FastaChunkException() {
