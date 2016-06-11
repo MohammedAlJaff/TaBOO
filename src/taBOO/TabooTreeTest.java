@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import taBOO.Node.NodeException;
+import taBOO.TabooTree.TabooTreeException;
+
 public class TabooTreeTest {
 
 	@Test
@@ -20,6 +23,29 @@ public class TabooTreeTest {
 		assertArrayEquals(exp, actual);	
 	}
 	
+	@Test 
+	public void expandAndGetAllTabooWordsTest() throws TabooTreeException, NodeException {
+		TabooTree t1 = new TabooTree(5, 5, 5);
+		
+		int[] w1 = {1, 2, 3, 4, 5};
+		int[] w2 = {1, 2, 3, 4, 5};
+		int[] w3 = {1, 2, 2, 2, 2};
+		int[] w4 = {1, 2, 2, 2, 3};
+		int[] w5 = {2, 2, 2, 2, 3};
+		int[] w6 = {3, 2, 2, 2, 3};
+		
+		t1.expand(w1);
+		
+		t1.expand(w2);
+		
+		t1.expand(w3);
+		
+		t1.expand(w4);
+		
+		t1.expand(w5);
+		
+		
+	}
 	
 	
 	

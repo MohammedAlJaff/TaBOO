@@ -9,7 +9,7 @@ public class Node {
 		// Instance variables
 		private int ID;
 		private Node parent = null;
-		private HashMap<Integer, Node> children;
+		public HashMap<Integer, Node> children;
 		
 		// Constructors;
 		public Node() {
@@ -71,7 +71,7 @@ public class Node {
 		 * @return
 		 * @throws NodeException
 		 */
-		public boolean addChild(int i) throws NodeException{
+		public boolean addChild(int i) {
 			if (this.hasChild(i)) {
 				return false;
 //				throw new NodeException();
@@ -84,7 +84,9 @@ public class Node {
 		}
 		
 		
+		
 
+		
 		
 		
 		
