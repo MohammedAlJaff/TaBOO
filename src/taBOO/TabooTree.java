@@ -9,27 +9,62 @@ public class TabooTree {
 	
 	private Node root;
 	private Node LeafLinker;
+	private int depth;
+	private int NcodeN; 
+	private int alphabetSize;
 	
-	// Constructors ::::::::::::::::::::::::::::::
-	public TabooTree() {
-	
+	// Constructors :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	public TabooTree(int NcodeN, int alphabetSize, int depth) {
+		
+		this.NcodeN = NcodeN;
+		this.alphabetSize = alphabetSize;
+		this.depth = depth;	
 		this.root = new Node(-1);
 	}
 	
+	// Methods ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	
+	/**
+	 * Returns the NcodeN value for the tree.
+	 * @return
+	 */
+	public int getNcodeN() {
+		return this.NcodeN;
+	}
 	
+	/**
+	 * Returns the depth value for the tree.
+	 * @return
+	 */
+	public int getDepth() {
+		return this.depth;
+	}
 	
-	// Methods ::::::::::::::::::::::::::::::
-
-	
-	public static void growTree(TabooTree t, int[] word) {
-	
+	/**
+	 * Returns the NcodeN value for the tree.
+	 * @return
+	 */
+	public int getAlphabetSize() {
+		return this.alphabetSize;
 	}
 	
 	
-	public static void growTree(Node n, int[] word, int index) {
+	
+	public void expand(int[] word) throws TabooTreeException{
+		
 		
 	}
+	
+	
+	
+	// Class Exception ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	public static class TabooTreeException extends Exception{
+		public TabooTreeException(String msg) {
+			super(msg);
+		}
+	}
+	
+	
 	
 	// Main ::::::::::::::::::::::::::::::
 	
