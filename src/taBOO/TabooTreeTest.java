@@ -111,7 +111,7 @@ public class TabooTreeTest {
 		assertArrayEquals(expected, actual);	
 	}
 	
-	//@Test(expected = IllegalArgumentException.class)
+
 	@Test(expected = TabooTreeException.class)
 	public void containsExactOnlyTestException() throws TabooTreeException, NodeException {
 		TabooTree t1 = new TabooTree(5,5,5);
@@ -127,6 +127,51 @@ public class TabooTreeTest {
 		int[] q1 = {1,2,3,4,5,6};
 		t1.contains(q1);// Should generate the TabooTreeException.
 	}
+	
+	/**
+	 * // EXTREMLY FRAGILE METHOD! SHOULD HARDEN AND TEST AGAIN.
+	 * @throws TabooTreeException
+	 * @throws NodeException
+	 */
+	@Test 
+	public void growTreeTest1() throws TabooTreeException, NodeException{
+		// Create empty tree
+		TabooTree t = new TabooTree(5, 4, 2);
+		Encoder encoder  = new Encoder();
+		
+		// Create sequence string that gets encoded
+		String s = "ACGTACGTACGTACGTACGT"+
+				"AAAAATTTTTTTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
+				+ "TTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
+				+ "TTTTTTTTTTTAAAAAAAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACAGCAGAG"
+				+ "CAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACA";
+		
+		String[] seqsIn = new String[4];
+		seqsIn[0] = "ACGTACGTAC";
+		seqsIn[1] = "CGTACGTACG";
+		seqsIn[2] = "GTACGTACGG";
+		seqsIn[3] = "TACGTACGGG";
+		
+		// Feed string into growTree to grow the t1 tree.
+		TabooTree.growTree(t, s, 10, 5, encoder);
+		// use contains to see if sequences can be found.
+		boolean b1 = t.contains(encoder.encode5(seqsIn[0]));
+		boolean b2 = t.contains(encoder.encode5(seqsIn[1]));
+		boolean b3 = t.contains(encoder.encode5(seqsIn[2]));
+		boolean b4 = t.contains(encoder.encode5(seqsIn[3]));
+		
+		boolean[] actual = {b1, b2, b3, b4};
+		boolean[] expected = {true, true, false, false};
+		
+		assertArrayEquals(expected, actual);
+		
+		// Assert.
+		
+	}
+	
+	
+	
+	
 	
 	
 }//End of JUint test

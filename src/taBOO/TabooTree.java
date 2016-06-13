@@ -68,10 +68,10 @@ public class TabooTree {
 	public static void expandHelper(Node n, int[] word, int currentIndex) throws NodeException {	
 		if(currentIndex==word.length) { // DO NOTHING.
 		} else {
-			int temp = word[currentIndex];
-			n.addChild(temp);
+			
+			n.addChild(word[currentIndex]);
 		//	System.out.println(currentIndex);
-			expandHelper(n.getChild(temp), word, currentIndex+1);
+			expandHelper(n.getChild(word[currentIndex]), word, currentIndex+1);
 		}
 	}
 	
@@ -87,17 +87,18 @@ public class TabooTree {
 			System.out.println(temp);
 		} else if(n.getID()==(-1) ){
 			String temp = "";
-			Set<Integer> children =   n.children.keySet();
-			Integer[] c = children.toArray(new Integer[children.size()]);
-			
+			Set<Integer> children =  (n.children.keySet());
+			Integer[]c = children.toArray(new Integer[children.size()]);
+			Arrays.sort(c);
 			for(Integer i: c) {
 				printAllWordsHelper(n.getChild(i), temp , depth);
 			}	 
 		}else {	
 			String temp = s+n.getID()+ ",";
 			Set<Integer> children =   n.children.keySet();
-			Integer[] c = children.toArray(new Integer[children.size()]);
 			
+			Integer[] c = children.toArray(new Integer[children.size()]);
+			Arrays.sort(c);
 			for(Integer i: c) {
 				printAllWordsHelper(n.getChild(i), temp , depth);
 			}
@@ -148,7 +149,48 @@ public class TabooTree {
 		}
 	}
 	
+	/**EXTREMLY FRAGILE! - ONLY HANDLES WORDLENGTH DIVISIBLE BY 5!!!!! 
+	 * This method returns a full TabooTree constructed from the n-code converted sequences
+	 * (of length w) found in the string s.
+	 * @param seed
+	 * @param s
+	 * @param wordLength
+	 * @param NcodeN
+	 * @param e
+	 * @throws TabooTreeException 
+	 * @throws NodeException 
+	 */
+	public static void growTree(TabooTree t, String s, int wordLength, int NcodeN , Encoder e) throws TabooTreeException, NodeException {
+		if (t.getNcodeN() != NcodeN || t.getDepth() != (wordLength/NcodeN)) {
+			throw new TabooTreeException("Fuck off");
+		}else {
+			
+			for(int i=0; i<(s.length()-wordLength+1); i++) {
+				String temp = s.substring(i, i+wordLength);
+				t.expand(e.encode5(temp));
+			}	
+		}
+	}
 	
+	/** NEEDS TESING!
+	 * Method essentially construct a input TabooTree from an array of input Organisms.
+	 * @param t
+	 * @param os
+	 * @param wordLength
+	 * @param NcodeN
+	 * @param e
+	 * @throws TabooTreeException
+	 * @throws NodeException
+	 */
+	public static void turnTaboo(TabooTree t, Organism[] os, int wordLength, int NcodeN , Encoder e) throws TabooTreeException, NodeException {
+		
+		for (Organism o: os) {		
+			for(PartialOrganism p : o.getPartials()) {
+				t.growTree(t, p.getSeq(), wordLength, NcodeN, e);
+				t.growTree(t, p.getRevSeq(), wordLength, NcodeN, e);	
+			}
+		}
+	}
 	
 	// Class Exception ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	public static class TabooTreeException extends Exception{
@@ -160,24 +202,38 @@ public class TabooTree {
 	// Main ::::::::::::::::::::::::::::::
 	public static void main(String[] args) throws TabooTreeException, NodeException {
 		
-		TabooTree t1 = new TabooTree(5,5,5);
+		// Create empty tree
+		TabooTree t = new TabooTree(5, 4, 2);
+		Encoder encoder  = new Encoder();
 		
-		int[][]	input1 = {
-				{1, 2, 3, 4, 53},
-				{1, 2, 3, 4, 52},
-				{1, 2, 2, 2, 2},
-				{1, 2, 2, 2, 3},
-				{2, 2, 2, 2, 3},
-				{3, 2, 2, 2, 3}
-				};	
+		// Create sequence string that gets encoded
 		
-		for(int i=0; i<input1.length; i++ ) {
-			t1.expand(input1[i]);
+		String s1 = "AAAAATTTTTTTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
+				+ "TTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
+				+ "TTTTTTTTTTTAAAAAAAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACAGCAGAG"
+				+ "CAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAAAAA";
+		
+		TabooTree.growTree(t, s1, 10, 5, encoder);
+
+		
+		//TabooTree.growTree(t, s1, 10, 5, encoder);
+		t.printAllWords();
+	
+		System.out.println("-------------------");
+		
+	
+		HashSet<Integer> x = new HashSet<Integer>();
+		x.add(4);
+		x.add(26);
+		x.add(1);
+		x.add(5);
+		for(Integer i: x) {
+			System.out.print(i + " ");
 		}
 		
-		t1.printAllWords();
-
-
+		Integer[] xa = x.toArray(new Integer[x.size()]);
+		
+		Arrays.sort(xa);
 		
 		
 	}// End Main
