@@ -10,7 +10,7 @@ public class TabooTree {
 	// Instance variables ::::::::::::::::::::::::::::::
 	
 	private Node root;
-	private Node LeafLinker;
+	private Node leafLinker; // Remains to be used.
 	private int depth;
 	private int NcodeN; 
 	private int alphabetSize;
@@ -50,7 +50,6 @@ public class TabooTree {
 		return this.alphabetSize;
 	}
 	
-	
 	/**
 	 * Method expands the tree from the root onwards with Nodes with IDs the same 
 	 * as those contained in the word in sequential order.
@@ -62,15 +61,12 @@ public class TabooTree {
 		if(word.length != depth) {
 			throw new TabooTreeException("input sequence of wrong length."
 					+ "Word length should be " + this.getDepth());
-		} else {
-			
+		} else {	
 			expandHelper(this.root, word, 0);
 		}
 	}
-	
 	public static void expandHelper(Node n, int[] word, int currentIndex) throws NodeException {	
-		if(currentIndex==word.length) {
-			
+		if(currentIndex==word.length) { // DO NOTHING.
 		} else {
 			int temp = word[currentIndex];
 			n.addChild(temp);
@@ -79,49 +75,78 @@ public class TabooTree {
 		}
 	}
 	
-	
-	
 	/**
 	 * Prints all words in the tree to the console.
 	 */
 	public void printAllWords() {
-		
 		printAllWordsHelper(this.root, "", this.depth);
 	}
-	
 	public static void printAllWordsHelper(Node n, String s, int depth) {
-		
 		if(!n.hasChildren()) {
 			String temp = s+n.getID();
 			System.out.println(temp);
 		} else if(n.getID()==(-1) ){
-			
 			String temp = "";
-			
 			Set<Integer> children =   n.children.keySet();
 			Integer[] c = children.toArray(new Integer[children.size()]);
 			
 			for(Integer i: c) {
-			
 				printAllWordsHelper(n.getChild(i), temp , depth);
 			}	 
-		}else {
-			
+		}else {	
 			String temp = s+n.getID()+ ",";
-			
 			Set<Integer> children =   n.children.keySet();
 			Integer[] c = children.toArray(new Integer[children.size()]);
 			
 			for(Integer i: c) {
-			
 				printAllWordsHelper(n.getChild(i), temp , depth);
 			}
 		}
 	}
 	
+	/** NOT DONE! Maybe Not Needed(?).
+	 * The method returns all words in the tree. More specifically, because 
+	 * all "words" in a taboo tree is given by all the paths from the root to
+	 * a leaf, this method essentially does a depth-first-traversal of the calling
+	 * tree and returns each path in an array format. The sum of all such paths are 
+	 * returned then as an 2D-array where each row
+	 * @return
+	 */
+	public int[][] getAllWords() {
+		int[][] x = new int[1][1];
+		x[0][0] = -3;
+		return x;
+	}
 	
-	
-	
+	/**
+	 * Given a query word in array format this method will return true
+	 * is there exists a path in the calling tree specified by the query
+	 * word. In more abstract terms a "true" return means that the query
+	 * "sequence" is also in the taboo organisms.
+	 * @param queryWord
+	 * @return
+	 */
+	public boolean contains(int[] queryWord) throws TabooTreeException{
+		
+		if(queryWord.length != this.depth) {
+			throw new TabooTreeException("Argument is of wrong length.");
+			//throw new TabooTreeException("Query word length does not equal depth of tree");
+		} else {
+			return containsExactHelper(this.root, queryWord, 0);
+			
+		}
+	}
+	public boolean containsExactHelper(Node n, int[] queryWord ,int index) {
+		if(n.hasChild(queryWord[index])) {
+			if(index == queryWord.length-1) {
+				return true;
+			} else {
+				return containsExactHelper(n.getChild(queryWord[index]), queryWord, index+1);
+			}
+		} else {
+				return false;
+		}
+	}
 	
 	
 	
@@ -131,33 +156,27 @@ public class TabooTree {
 			super(msg);
 		}
 	}
-	
-	
-	
+
 	// Main ::::::::::::::::::::::::::::::
-	
-	
-	
-	
 	public static void main(String[] args) throws TabooTreeException, NodeException {
 		
-		TabooTree t1 = new TabooTree(5, 5, 5);
+		TabooTree t1 = new TabooTree(5,5,5);
 		
-		int[] w1 = {1, 2, 3, 4, 5};
-		int[] w2 = {1, 2, 3, 4, 5};
-		int[] w3 = {1, 2, 1, 4, 5};
-		int[] w4 = {3, 2, 3, 4, 5};
-		int[] w5 = {5, 2, 3, 4, 5};
-	
-		t1.expand(w3);	
-		t1.expand(w4);
+		int[][]	input1 = {
+				{1, 2, 3, 4, 53},
+				{1, 2, 3, 4, 52},
+				{1, 2, 2, 2, 2},
+				{1, 2, 2, 2, 3},
+				{2, 2, 2, 2, 3},
+				{3, 2, 2, 2, 3}
+				};	
+		
+		for(int i=0; i<input1.length; i++ ) {
+			t1.expand(input1[i]);
+		}
+		
 		t1.printAllWords();
-//		
-//		t1.expand(w5);
-//		t1.printAllWords();
-//		
-		
-		
+
 
 		
 		
