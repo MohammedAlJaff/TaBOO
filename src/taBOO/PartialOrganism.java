@@ -39,8 +39,7 @@ public class PartialOrganism {
 		this.revSeq = p.getRevSeq();
 	}
 	
-	
-	
+
 	/**
 	 * Generates the identifier and sequence of a PartialOrganism object from a fasta chunk.
 	 * <br><br>The String:<br> ">header<br>ATGAGTAG"<br> would set the gi to ">header" and seq to "ATGAGTAG".
@@ -86,7 +85,6 @@ public class PartialOrganism {
 	 * Creates a and returns a clone of the input PartialOrganism
 	 */
 	public static PartialOrganism PartialOrganismFactory(PartialOrganism p) {
-		
 		return new PartialOrganism(p);
 	}
 	

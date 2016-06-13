@@ -8,20 +8,21 @@ public class FastaChunk {
 	public FastaChunk(String s) {
 	
 		String[] temp;
-		try {
-			temp = guillotine(s);
+		temp = guillotine(s);
 
-			this.head = temp[0]; 
-			this.body = temp[1];
-		} catch (FastaChunkException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.head = temp[0]; 
+		this.body = temp[1];
 		
 	}
 	
-	
-	private static String[] guillotine(String s) throws FastaChunkException {
+	/**
+	 * CHoops of the first Line of a string, the head, and returns it as
+	 * the first element of the returned String array. 
+	 * The second element is the rest of the input string. 
+	 * @param s
+	 * @return
+	 */
+	public static String[] guillotine(String s) {
 			
 		String[] temp = s.split("\n"); 
 		
@@ -32,7 +33,6 @@ public class FastaChunk {
 			body = body+temp[i];
 		}
 		
-		
 		String[] whole = new String[2];
 		whole[0] = head;
 		whole[1] = body;
@@ -41,13 +41,14 @@ public class FastaChunk {
 	
 	}
 	
-	
 	public static FastaChunk fastaChunckCreator(String string) {
-		
 		return new FastaChunk(string);
 	}
 	
-	// 
+	/**
+	 * Returns the Head of the chunk as a string IN A SINGLE LINE WITHOUT A LINE BREAK.
+	 * @return
+	 */
 	public String getHead()  {
 		if (head != null) {
 			return head;	
@@ -57,84 +58,50 @@ public class FastaChunk {
 		
 	}
 	
-	
-	// maybe change body to sequence
+	/**
+	 * Returns the body of the chunk as a complete and single line.
+	 * @return
+	 */
 	public String getBody() {
 		return body;
 	}
 
+	/**
+	 * Returns a string where the first line contains the head of the 
+	 * chunk and the next line is the body of the sequence as a single line.
+	 */
 	public String toString() {
 	
 			return this.getHead()+"\n"+this.getBody();
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Custom classException
+	 * @author RockefellerSuperstar
+	 *
+	 */
 	public static class FastaChunkException extends Exception {
 		
-		public FastaChunkException() {
-			super();
+		public FastaChunkException(String msg) {
+			super(msg);
 		}
 		
 		
 	}
 	
-	
-	
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
 	
-		String s = ">blablabl\nAAABBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAA";
+		String s1 = ">bla1\n"+"AAA";
+		String s2 = ">bla2\n"+"AAA\n";
+		String s3 = s1+"\n"+s2;
 		
-		System.out.println(s);
-		System.out.println("------------------------------");
-		// Test. FastaChunck;
+		String[] a1 = FastaChunk.guillotine(s1);	
+		String[] a2 = FastaChunk.guillotine(s2);
+		String[] a3 = FastaChunk.guillotine(s3);
 		
-		FastaChunk x = new FastaChunk(s);
-		
-		
-		System.out.println("Head: " + x.getHead());
-		System.out.println("Body of squence: " + x.getBody());
-		
-		System.out.println("------------------------------");
-		
-		// Test. fastaChunkCreator;
-		String r = ">rrr\nTGTGTGTGTGT\n";
-		FastaChunk y = new FastaChunk(r);
-				
-		System.out.println("Head: " + y.getHead());
-		System.out.println("Body of squence: " + y.getBody());
-				
-		System.out.println("------------------------------");
-				
-				
-		// Test FastaChuNKeXCEPTION;
-		
-		String w = ">rrr\nTGTGTGTGTGT\nhbjbh";
-		FastaChunk q = new FastaChunk(w);
-				
-		System.out.println("Head: " + q.getHead());
-		System.out.println("Body of squence: " + q.getBody());
-				
-		System.out.println("------------------------------");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}	
+		System.out.println(a3[0]);
+		System.out.println(a3[1]);
 
+	}	
 }

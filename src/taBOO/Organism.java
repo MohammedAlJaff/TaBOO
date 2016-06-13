@@ -113,8 +113,6 @@ public class Organism {
 		for(PartialOrganism p: this.partialGenomes) {
 			temp.add(PartialOrganism.PartialOrganismFactory(p));
 		}
-		
-		
 		return temp;
 	}
 	
