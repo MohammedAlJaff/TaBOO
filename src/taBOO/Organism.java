@@ -23,7 +23,7 @@ public class Organism {
 	/*
 	 * Not Done
 	 */
-	private Organism(String url) {
+	public Organism(String url) {
 		
 		try {
 			
@@ -116,6 +116,9 @@ public class Organism {
 		return temp;
 	}
 	
+	public String getGi() {
+		return gi;
+	}
 
 	// MAIN :::::::::::::::::::::::::::::::::::::::::::::::::::::
 	public static void main(String [] args) throws IOException{
@@ -135,7 +138,7 @@ public class Organism {
 			System.out.println(a+"\n");
 			
 		}
-		
+		System.out.println(x.getGi());
 		
 		
 		

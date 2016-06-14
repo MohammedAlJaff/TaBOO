@@ -38,8 +38,24 @@ public class randomFastaFile {
 	}
 	
 	/**
+	 * Generates a fasta file with default parameters
+	 * @param filename name of the fasta file
+	 */
+	public randomFastaFile(String filename) {
+		numberOfFiles++;
+		this.range = defaultRange;
+		this.length = defaultLength;
+		this.chunks = defaultChunks;
+		this.onlyATCG = defaultOnlyATCG;
+		this.lineLength = defaultLineLength;
+		this.filename = filename;
+		System.out.println("Creating fasta sequence with default parameters");
+		this.fastaFile = fastaGenerator();
+	}
+	
+	/**
 	 * Generates a fasta file based on specified parameters
-	 * @param filename name of file
+	 * @param filename name of the fasta file
 	 * @param length length of each chunk body
 	 * @param range range of each chunk body (0.0 - 1.0)
 	 * @param chunks number of chunks
