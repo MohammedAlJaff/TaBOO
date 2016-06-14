@@ -69,7 +69,6 @@ public class SequenceTools {
 		}
 	}
 	
-	
 	public static void main(String[] args) {
 		/*int length = 7000000;
 
