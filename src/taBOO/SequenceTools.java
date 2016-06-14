@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class SequenceTools {
 
-	/**
+	/** WTF? "The reverse strand to be read 3'->5'"??.
 	 * Reverses a sequence (i.e forward strand). 
-	 * The sequence may contain the canonical bases and unknown bases N where N is it's own complementary base.
+	 * The sequence may contain the canonical bases and unknown bases N where N is its own complementary base.
 	 * The forward strand is expected to be read 5'-->3' while the reverse strand is expected to be read 3'-->5'.
 	 * <br><br>Example:<br>"ATGGN" would return "NCCAT"
 	 * @param seq the sequence to be reversed
@@ -37,6 +37,7 @@ public class SequenceTools {
 		return revSeq.toString();
 	}
 
+	// What about case sensitivity?
 	/**
 	 * "Fixes" a sequence to an acceptable format by replacing all bases that are not canonical
 	 * or N. Canonical bases and N's are untouched while other will be converted to N's.
@@ -45,6 +46,7 @@ public class SequenceTools {
 	 * @return a fixed sequence where all bases are acceptable
 	 */
 	public static String baseFixer(String seq) {
+		seq = seq.toUpperCase();
 		StringBuilder b = new StringBuilder(seq.length());
 
 		for(int i = 0; i < seq.length(); i++) {
@@ -58,6 +60,13 @@ public class SequenceTools {
 		}
 
 		return b.toString();
+	}
+	
+	// Class custom exception
+	public static class SequenceToolException extends Exception{
+		public SequenceToolException(String msg) {
+			super(msg);
+		}
 	}
 	
 	public static void main(String[] args) {

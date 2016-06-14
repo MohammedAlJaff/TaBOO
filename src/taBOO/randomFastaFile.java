@@ -34,6 +34,7 @@ public class randomFastaFile {
 		this.lineLength = defaultLineLength;
 		this.filename = "fastaFile" + numberOfFiles;
 		System.out.println("Creating fasta sequence with default parameters");
+		this.fastaFile = fastaGenerator();
 	}
 	
 	/**
@@ -144,6 +145,11 @@ public class randomFastaFile {
 		return seq.toString();
 	}
 	
+	/**
+	 *  Decides on the true length of a  sequence for a given chunk in the final file
+	 *  
+	 * @return
+	 */
 	private int trueLength() {
 		if(Math.random() > 0.5) {
 			return (int) (this.length*(1+(Math.random()*this.range)));
@@ -151,6 +157,9 @@ public class randomFastaFile {
 		return (int) (this.length*(1-(Math.random()*this.range)));
 	}
 	
+	/**
+	 * The method check for the validity of the inputed parameters to the constructor.
+	 */
 	private void checkParameters() {
 		System.out.println("Checking parameters...");
 		if(this.length < 0) {
@@ -169,6 +178,10 @@ public class randomFastaFile {
 		System.out.println("Done checking parameters");
 	}
 	
+	/**
+	 * Returns a string containing the parameter information for the callin fastaFile.
+	 * @return
+	 */
 	public String printParameters() {
 		return "filename:	" + this.filename + "\n" +
 			   "length:		" + this.length + "\n" +
@@ -178,10 +191,17 @@ public class randomFastaFile {
 			   "onlyATCG:	" + this.onlyATCG + "\n";
 	}
 	
+	/**
+	 * Returns the complete content of the calling fastaFil,
+	 */
 	public String toString() {
 		return fastaFile;
 	}
 	
+	/**
+	 * This method writes the generated randomFastaFile (its content) to 
+	 * a file with a filename equals to the the name specified by the field. 
+	 */
 	public void toFile() {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(this.filename)));
@@ -194,12 +214,16 @@ public class randomFastaFile {
 	}
 	
 	public static void main(String[] args) {
-		randomFastaFile f = new randomFastaFile("test.txt", -10, 0, 10, true, 80);
 		
-		//randomFastaFile f = new randomFastaFile();
-		//System.out.println(f.printParameters());
-		//System.out.println(f);
-		f.toFile();
+		randomFastaFile f = new randomFastaFile();
+		
+		System.out.println(f);
+		System.out.println("-----------------------------");
+		System.out.println(f.printParameters());
+		System.out.println("-----------------------------");
+		System.out.println(f.trueLength());
+		System.out.println("-----------------------------");
+		
 	}
 	
 }
