@@ -88,7 +88,6 @@ public class PartialOrganism {
 		return new PartialOrganism(p);
 	}
 	
-	
 	/**
 	 * Returns the identifier, sequence and reverse sequence of the partial organism<br><br>
 	 * Example:<br>

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import taBOO.Encoder.EncoderException;
 import taBOO.Node.NodeException;
 import taBOO.TabooTree.TabooTreeException;
 
@@ -132,9 +133,10 @@ public class TabooTreeTest {
 	 * // EXTREMLY FRAGILE METHOD! SHOULD HARDEN AND TEST AGAIN.
 	 * @throws TabooTreeException
 	 * @throws NodeException
+	 * @throws EncoderException 
 	 */
 	@Test 
-	public void growTreeTest1() throws TabooTreeException, NodeException{
+	public void growTreeTest1() throws TabooTreeException, NodeException, EncoderException{
 		// Create empty tree
 		TabooTree t = new TabooTree(5, 4, 2);
 		Encoder encoder  = new Encoder();
@@ -155,10 +157,10 @@ public class TabooTreeTest {
 		// Feed string into growTree to grow the t1 tree.
 		TabooTree.growTree(t, s, 10, 5, encoder);
 		// use contains to see if sequences can be found.
-		boolean b1 = t.contains(encoder.encode5(seqsIn[0]));
-		boolean b2 = t.contains(encoder.encode5(seqsIn[1]));
-		boolean b3 = t.contains(encoder.encode5(seqsIn[2]));
-		boolean b4 = t.contains(encoder.encode5(seqsIn[3]));
+		boolean b1 = t.contains(encoder.encode(seqsIn[0]));
+		boolean b2 = t.contains(encoder.encode(seqsIn[1]));
+		boolean b3 = t.contains(encoder.encode(seqsIn[2]));
+		boolean b4 = t.contains(encoder.encode(seqsIn[3]));
 		
 		boolean[] actual = {b1, b2, b3, b4};
 		boolean[] expected = {true, true, false, false};

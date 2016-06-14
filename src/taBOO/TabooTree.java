@@ -2,6 +2,7 @@ package taBOO;
 
 import java.util.*;
 
+import taBOO.Encoder.EncoderException;
 import taBOO.Node.NodeException;
 
 public class TabooTree {
@@ -159,15 +160,16 @@ public class TabooTree {
 	 * @param e
 	 * @throws TabooTreeException 
 	 * @throws NodeException 
+	 * @throws EncoderException 
 	 */
-	public static void growTree(TabooTree t, String s, int wordLength, int NcodeN , Encoder e) throws TabooTreeException, NodeException {
+	public static void growTree(TabooTree t, String s, int wordLength, int NcodeN , Encoder e) throws TabooTreeException, NodeException, EncoderException {
 		if (t.getNcodeN() != NcodeN || t.getDepth() != (wordLength/NcodeN)) {
 			throw new TabooTreeException("Fuck off");
 		}else {
 			
 			for(int i=0; i<(s.length()-wordLength+1); i++) {
 				String temp = s.substring(i, i+wordLength);
-				t.expand(e.encode5(temp));
+				t.expand(e.encode(temp));
 			}	
 		}
 	}
@@ -181,8 +183,9 @@ public class TabooTree {
 	 * @param e
 	 * @throws TabooTreeException
 	 * @throws NodeException
+	 * @throws EncoderException 
 	 */
-	public static void turnTaboo(TabooTree t, Organism[] os, int wordLength, int NcodeN , Encoder e) throws TabooTreeException, NodeException {
+	public static void turnTaboo(TabooTree t, Organism[] os, int wordLength, int NcodeN , Encoder e) throws TabooTreeException, NodeException, EncoderException {
 		
 		for (Organism o: os) {		
 			for(PartialOrganism p : o.getPartials()) {
@@ -200,7 +203,7 @@ public class TabooTree {
 	}
 
 	// Main ::::::::::::::::::::::::::::::
-	public static void main(String[] args) throws TabooTreeException, NodeException {
+	public static void main(String[] args) throws TabooTreeException, NodeException, EncoderException {
 		
 		// Create empty tree
 		TabooTree t = new TabooTree(5, 4, 2);
