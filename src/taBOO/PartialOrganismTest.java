@@ -2,6 +2,8 @@ package taBOO;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import taBOO.FastaChunk.FastaChunkException;
@@ -10,7 +12,7 @@ public class PartialOrganismTest {
 
 
 	@Test
-	public void testGetSeqAndGetRevSeq() throws FastaChunkException {
+	public void testGetSeqAndGetRevSeq() throws FastaChunkException, IOException {
 		
 		String s1 = ">Bla\nATTTATTT";
 		FastaChunk f1 = new FastaChunk(s1);
@@ -28,7 +30,7 @@ public class PartialOrganismTest {
 
 	
 	@Test
-	public void testPartialOrganismFactory() throws FastaChunkException {
+	public void testPartialOrganismFactory() throws FastaChunkException, IOException {
 		
 		String s1 = ">Bla\nATTTATTT";
 		FastaChunk f1 = new FastaChunk(s1);

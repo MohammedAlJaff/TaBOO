@@ -20,9 +20,10 @@ public class Organism {
 	
 	
 	//Constructors ::::::::::::::::::::::::::::::::::::::::::::::::::::
-	/*
-	 * Not Done
-	 */
+/**
+ * 
+ * @param url
+ */
 	public Organism(String url) {
 		
 		try {
@@ -52,37 +53,44 @@ public class Organism {
 		List<FastaChunk> tempFC = new ArrayList<FastaChunk>();
 		List<FastaChunk> returnTempFC = new ArrayList<FastaChunk>();
 		
-		
 		FileReader fr = new FileReader(fileURL);
 		BufferedReader br=  new BufferedReader(fr);
 		
+		StringBuilder tc = new StringBuilder(10000000);
+		
 		String s = null;
-		String tempChunk = ">REMOVE\nREMOVE"; 
+//		String tempChunk = ">REMOVE\nREMOVE"; 
+		tc.append(">REMOVE\nREMOVE");
+		int counter =0;
 		while ((s = br.readLine()) != null) {
-			
+//			
+//			counter++;
+//			System.out.println("Organism loop: " + counter);
 			if(s.charAt(0) == '>') {
 				
 //				System.out.print(tempChunk);
-				tempFC.add(new FastaChunk(tempChunk));
+//				tempFC.add(new FastaChunk(tempChunk));
+				tempFC.add(new FastaChunk(tc.toString()));
+						
+//				tempChunk = s+"\n";
+				tc.setLength(0);
+				tc.append(s+"\n");
 				
-				tempChunk = s+"\n";
 			} else {
 				
-				tempChunk = tempChunk+s+"\n";
+//				tempChunk = tempChunk+s+"\n";
+				tc.append(s+"\n");
 			}
 		}
 		
 //			System.out.print(tempChunk);
-			tempFC.add(new FastaChunk(tempChunk));
-			tempChunk = s;
+//			tempFC.add(new FastaChunk(tempChunk));
+			tempFC.add(new FastaChunk(tc.toString()));
+//			tempChunk = s;
 
-	
-		
-		
 		// Removal of first FastaChunk. 
 		// Note we begin at 1 because the first one gets removed	
 		for (int i=1; i<tempFC.size();i++) {
-			
 			returnTempFC.add(tempFC.get(i));
 		}
 	

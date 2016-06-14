@@ -2,6 +2,8 @@ package taBOO;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import taBOO.FastaChunk.FastaChunkException;
@@ -14,7 +16,7 @@ public class FastaChunkTest {
 	}
 	
 	@Test
-	public void getterTest1() {
+	public void getterTest1() throws IOException {
 		String s1 = ">blablabla\n"+"AAAAATTTTT\nTTTTTTTT";
 		FastaChunk f1 = new FastaChunk(s1);
 		
@@ -49,8 +51,30 @@ public class FastaChunkTest {
 		assertArrayEquals(expected, actual);
 	}
 
+	
+	
 	@Test
-	public void fastachunkCreatorTest1() {
+	public void guillotine1Test1() throws FastaChunkException, IOException {
+		String s1 = ">bla1\n"+"AAA";
+		String s2 = ">bla2\n"+"AAA\n";
+		String s3 = s1+"\n"+s2;
+		
+		String[] a1 = FastaChunk.guillotine1(s1);	
+		String[] a2 = FastaChunk.guillotine1(s2);
+		String[] a3 = FastaChunk.guillotine1(s3);
+		
+		boolean b1 = a1[0].equals(">bla1") && a1[1].equals("AAA");
+		boolean b2 = a2[0].equals(">bla2") && a2[1].equals("AAA");
+		boolean b3 = a3[0].equals(">bla1") && a3[1].equals("AAA>bla2AAA");
+		
+		boolean[] actual = {b1, b2, b3};
+		boolean[] expected = {true, true, true};
+		
+		assertArrayEquals(expected, actual);
+	}
+	
+	@Test
+	public void fastachunkCreatorTest1() throws IOException {
 		
 		FastaChunk f1 = FastaChunk.fastaChunckCreator(">Bla1\nABA");
 		

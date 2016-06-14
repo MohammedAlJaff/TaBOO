@@ -1,14 +1,22 @@
 package taBOO;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+
 public class FastaChunk {
 
 	private String head;
 	private String body;
 	
-	public FastaChunk(String s) {
+	public FastaChunk(String s) throws IOException {
 	
 		String[] temp;
-		temp = guillotine(s);
+		//temp = guillotine(s);
+		temp = guillotine1(s);
 
 		this.head = temp[0]; 
 		this.body = temp[1];
@@ -31,6 +39,7 @@ public class FastaChunk {
 		
 		for (int i=1; i<temp.length;i++) {
 			body = body+temp[i];
+			System.out.println("fastachunk loop: " +i);
 		}
 		
 		String[] whole = new String[2];
@@ -41,7 +50,32 @@ public class FastaChunk {
 	
 	}
 	
-	public static FastaChunk fastaChunckCreator(String string) {
+	
+	public static String[] guillotine1(String s) throws IOException {
+		String[] whole = new String[2];
+		
+        InputStream is = new ByteArrayInputStream(s.getBytes(Charset.forName("UTF-8")));
+        BufferedReader bf = new BufferedReader(new InputStreamReader(is));
+		StringBuilder body = new StringBuilder(s.length());
+		
+		String head = bf.readLine();
+		String tempString ="";
+		
+		while( (tempString = bf.readLine()) != null) {
+			
+			body.append(tempString);
+		}
+	
+		whole[0] = head;
+		whole[1] = body.toString();
+		return whole;
+	}	
+	
+	
+	
+	
+	
+	public static FastaChunk fastaChunckCreator(String string) throws IOException {
 		return new FastaChunk(string);
 	}
 	

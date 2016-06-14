@@ -71,6 +71,7 @@ public class TabooTree {
 		} else {
 			
 			n.addChild(word[currentIndex]);
+			// NUll
 		//	System.out.println(currentIndex);
 			expandHelper(n.getChild(word[currentIndex]), word, currentIndex+1);
 		}
@@ -169,7 +170,10 @@ public class TabooTree {
 			
 			for(int i=0; i<(s.length()-wordLength+1); i++) {
 				String temp = s.substring(i, i+wordLength);
-				t.expand(e.encode(temp));
+				int[] x = e.encode(temp);
+				t.expand(x);
+				x = null;
+				temp = null;
 			}	
 		}
 	}
@@ -206,38 +210,36 @@ public class TabooTree {
 	public static void main(String[] args) throws TabooTreeException, NodeException, EncoderException {
 		
 		// Create empty tree
-		TabooTree t = new TabooTree(5, 4, 2);
-		Encoder encoder  = new Encoder();
-		
+		TabooTree t = new TabooTree(5, 4, 3);
+		Encoder e = new Encoder();
 		// Create sequence string that gets encoded
+		t.printAllWords();
+		String s1 = "AAAAANNNNNTTCTGCAGCGCGATAGTCCATCTCTGACACCTGCATCAGCACCCCCCCCTCTCTCTCGCCNNNNCTNCNTNCTNCNNNTNCNTNCNTNCTNCNT";
+		String s2 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+		TabooTree.growTree(t, s1, 15, 5, e);
+		TabooTree.growTree(t, s2, 15, 5, e);
+		t.printAllWords();
 		
-		String s1 = "AAAAATTTTTTTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
-				+ "TTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
-				+ "TTTTTTTTTTTAAAAAAAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACAGCAGAG"
-				+ "CAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAAAAA";
 		
-		TabooTree.growTree(t, s1, 10, 5, encoder);
+		
+//		String s1 = "AAAAATTTTTTTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
+//				+ "TTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAATTTTTTTTTTTAAAAAAAAA"
+//				+ "TTTTTTTTTTTAAAAAAAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACAGCAGAG"
+//				+ "CAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAATAAATACACGAGAGCAGAGACAGCAGAGCAAAAAAA";
+////		
+//		TabooTree.growTree(t, s1, 10, 5, encoder);
 
 		
 		//TabooTree.growTree(t, s1, 10, 5, encoder);
-		t.printAllWords();
 	
 		System.out.println("-------------------");
 		
+		int[] x = {2056,3121,2423};
+		System.out.println(t.contains(x));
+		int[] y = {206,3121,2423};
+		System.out.println(t.contains(y));
+		
 	
-		HashSet<Integer> x = new HashSet<Integer>();
-		x.add(4);
-		x.add(26);
-		x.add(1);
-		x.add(5);
-		for(Integer i: x) {
-			System.out.print(i + " ");
-		}
-		
-		Integer[] xa = x.toArray(new Integer[x.size()]);
-		
-		Arrays.sort(xa);
-		
 		
 	}// End Main
 

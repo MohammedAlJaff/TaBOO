@@ -17,12 +17,12 @@ public class Encoder {
 		this(5);
 	}
 
-	/**
-	 * Creates an Encoder object with wordlength as specified by input parameter.
+	/** NcodeN is the same as the term word length in this class.
+	 * Creates an Encoder object with word length as specified by input parameter.
 	 * @param l the length of the words
 	 */
-	public Encoder(int wordLength) {
-		this.wordLength = wordLength;
+	public Encoder(int NcodeN) {
+		this.wordLength = NcodeN;
 		generate();
 	}
 

@@ -18,7 +18,7 @@ public class Node {
 		
 		public Node(int i) {
 			this.ID = i;
-			this.children = new HashMap<Integer, Node>();
+			this.children = new HashMap<Integer, Node>(5, 1);
 		}
 
 		// Methods
