@@ -66,12 +66,12 @@ public class Setup {
 	 * @throws IOException
 	 * @throws SetupException
 	 */
-	private static boolean checkFiletype(String url) throws IOException, SetupException {
-		String[] parsedLast = url.split("\\.");
-		String fileExtension = parsedLast[parsedLast.length-1];
+	public static boolean checkFiletype(String url) throws IOException, SetupException {
+		String[] parsedURL = url.split("\\.");
+		String fileExtension = parsedURL[parsedURL.length-1];
 
-		for(String ex : acceptedFileTypes) {
-			if (ex.equals(fileExtension)) {				
+		for(String extension : acceptedFileTypes) {
+			if (extension.equals(fileExtension)) {				
 				return true;
 			}
 		}
@@ -169,7 +169,7 @@ public class Setup {
 			File[] allFiles = new File(folder.toString()).listFiles();
 
 			for(File file : allFiles) {
-				if(file.isFile()) {
+				if(file.isFile() && !file.isHidden()) {
 					Setup.checkFiletype(file.getAbsolutePath());
 					files.add(file.getAbsoluteFile());
 				}
