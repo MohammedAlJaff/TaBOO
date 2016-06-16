@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import taBOO.Setup.SetupException;
 
@@ -245,8 +246,15 @@ public class Setup {
 	
 	
 	public static void main(String[] args) throws SetupException, InterruptedException, IOException {
-		String orgAfolder = "C:/Users/erique/Desktop/org/orgAfolder";
-		String orgBfolder = "C:/Users/erique/Desktop/org/orgBfolder";
+		Scanner scan = new Scanner(System.in);
+		
+		//String orgAfolder = "C:/Users/erique/Desktop/org/orgAfolder";
+		//String orgBfolder = "C:/Users/erique/Desktop/org/orgBfolder";
+		System.out.println("Absolute path to organism A folder:");
+		String orgAfolder = scan.nextLine();
+		System.out.println("Absolute path to organism B folder:");
+		String orgBfolder = scan.nextLine();
+		System.out.println("===================================\n");
 		
 		System.out.println("Getting and displaying folders:\n");
 		List<File> foldersB = Setup.getAllFolders(orgBfolder);
