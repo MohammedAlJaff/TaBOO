@@ -190,7 +190,7 @@ public class Setup {
 		List<File> filePaths = new ArrayList<File>();
 
 		for(File file : listOfFiles) {
-			if (file.isFile()) {
+			if (file.isFile() && !file.isHidden()) {
 				Setup.checkFiletype(file.getAbsolutePath());
 				filePaths.add(file.getAbsoluteFile());
 			}
