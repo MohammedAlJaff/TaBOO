@@ -28,14 +28,13 @@ public class FilterEngine {
 			FileWriter fw = new FileWriter(filename);
 			BufferedWriter bw = new BufferedWriter(fw);
 			System.out.println(o.getGi());
+			String tempsi;
 			for(PartialOrganism p: o.partialGenomes) {
 				System.out.println(p.getGi() + ": + Strand");	
 				int wordlength = (t.getDepth()*t.getNcodeN());
-				
-				
+			
 		        for(int pos=0; pos<p.getSeq().length()-wordlength+1; pos++) {
-		        	
-		        	String tempsi = p.getSeq().substring(pos, pos+wordlength);
+		        	tempsi = p.getSeq().substring(pos, pos+wordlength);
 		        	if(t.contains( e.encode(tempsi) )) {
 		        		System.out.println( "pos: "+pos+ " - " + tempsi);
 		        	}
@@ -43,26 +42,12 @@ public class FilterEngine {
 		        
 		        System.out.println(p.getGi() + ": - Strand");	
 		        for(int pos=0; pos<p.getRevSeq().length()-wordlength+1; pos++) {
-		        	
-		        	String tempsi = p.getRevSeq().substring(pos, pos+wordlength);
+		        	tempsi = p.getRevSeq().substring(pos, pos+wordlength);
 		        	if(t.contains( e.encode(tempsi) )) {
 		        		System.out.println( "pos: "+pos+ " - " + tempsi);
 		        	}
-		        }
-		        
-		        
-		        
-		        
+		        }  
 			}
 		}
 	}
-	
-	
-	public static void main(String[] args) {
-
-		
-		
-		
-	}
-
 }

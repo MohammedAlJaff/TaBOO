@@ -10,7 +10,24 @@ import taBOO.FastaChunk.FastaChunkException;
 
 public class PartialOrganismTest {
 
-
+	@Test 
+	public void getLengthTest1() throws FastaChunkException, IOException {
+		String s1 = ">Bla1\nACGT";
+		String s2 = ">Bla2\nAAACCCGGGTTT";
+		
+		PartialOrganism p1 = new PartialOrganism(new FastaChunk(s1));
+		PartialOrganism p2 = new PartialOrganism(new FastaChunk(s2));
+		
+		boolean b1 = p1.getSeqLength()==4;
+		boolean b2 = p2.getSeqLength()==12;
+		
+		boolean[] actual = {b1, b2};
+		boolean[] expected = {true, true}; 
+		
+		assertArrayEquals(expected, actual);
+	}
+	
+	
 	@Test
 	public void testGetSeqAndGetRevSeq() throws FastaChunkException, IOException {
 		
@@ -27,7 +44,6 @@ public class PartialOrganismTest {
 		
 		assertArrayEquals(expected, actual);
 	}
-
 	
 	@Test
 	public void testPartialOrganismFactory() throws FastaChunkException, IOException {
@@ -47,3 +63,6 @@ public class PartialOrganismTest {
 		
 	}
 }
+
+
+	

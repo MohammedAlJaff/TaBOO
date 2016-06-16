@@ -15,7 +15,7 @@ public class testRunMe {
 		System.out.println("BeginReading");
 		long t0 = System.currentTimeMillis();
 		Organism hiv = new Organism("hiv.fna");
-		Organism siv = new Organism("siv.fna");
+		Organism siv = new Organism("ecoli.fna");
 		
 		long t1 = System.currentTimeMillis();
 		long elapsed = t1-t0;
@@ -31,24 +31,22 @@ public class testRunMe {
 		Aorgs[0] = hiv;
 		
 		int NcodeN = 5;
-		int wordLength = 30;
+		int wordLength = 20;
 		int depth = wordLength/NcodeN;
-		
 		
 		TabooTree t = new TabooTree(NcodeN, 5, depth);
 		Encoder e = new Encoder(NcodeN);
+		System.out.println("-----------------------");
 		
+		System.out.println("Building TabooTree");
 		long x0 = System.currentTimeMillis();
 		TabooTree.turnTaboo(t, Borgs, wordLength, NcodeN, e);
-		
 		long x1 = System.currentTimeMillis();
-		
 		long elapsedTimeTree = x1-x0;
-		
-		System.out.println("TabooTree growth - Elapsed time: " + elapsedTimeTree+ "msek");
+		System.out.println("TabooTree Finished - Growth time: " + elapsedTimeTree+ "msek");
 		System.out.println("----------------------");
 		
-		
+		System.out.println("Filtering..." );
 		FilterEngine.filterEngine(Aorgs, t, NcodeN);
 
 	}
