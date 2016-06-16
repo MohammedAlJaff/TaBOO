@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 public class Encoder {
 
+	//THE CANONICAL UNKNOWN BASE N HAS BEEN MOVED TTO ITS LEXICOGRAPHICAL POSTION!.
+	
 	private HashMap<Integer, String> reConversionMap;
 	private HashMap<String, Integer> conversionMap;// = new HashMap<String, Integer>();
 	private int[][] mmlu;
@@ -27,6 +29,10 @@ public class Encoder {
 	}
 
 	//Methods::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	public int getNcodeN() {
+		return this.wordLength;
+	}
+	
 	/**
 	 * Factory method for generation of conversion maps and mismatch-table.
 	 */
@@ -34,7 +40,7 @@ public class Encoder {
 		this.conversionMap = new HashMap<String, Integer>();
 		this.reConversionMap = new HashMap<Integer, String>();
 
-		String[] bases = {"A", "C", "G", "T", "N"};
+		String[] bases = {"A", "C", "G", "N", "T"};
 		int length = (int)(Math.pow(bases.length, this.wordLength));
 		int[] indx = new int[this.wordLength];
 		int maxBases = bases.length-1;

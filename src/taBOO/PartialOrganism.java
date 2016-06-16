@@ -32,6 +32,16 @@ public class PartialOrganism {
 		//TODO baseFixer, revSeq
 	}
 	
+	/**
+	 * This returns the length of the partialGenome, ie 
+	 * the number if bases in the partial.
+	 * @return
+	 */
+	public int getSeqLength() {
+		return this.seq.length();
+		
+	}
+	
 	private PartialOrganism(PartialOrganism p) {
 		
 		this.gi = p.getGi();

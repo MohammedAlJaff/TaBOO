@@ -78,6 +78,29 @@ public class TabooTree {
 	}
 	
 	/**
+	 * Non-recursive versoin of the above 
+	 * @param word
+	 */
+	public void expandNonRec(int[] word) throws TabooTreeException{
+		
+		Node currentNode =  this.root;
+		int currentIndex = 0;
+		while (currentIndex<this.depth) {
+		
+			if(currentNode.hasChild(word[currentIndex])) {
+				currentNode = currentNode.getChild(word[currentIndex]);
+				currentIndex++;
+				
+			} else {
+				currentNode.addChild(word[currentIndex]);
+				currentNode = currentNode.getChild(word[currentIndex]); 
+				currentIndex++;
+			}
+		}	
+	}
+	
+	
+	/**
 	 * Prints all words in the tree to the console.
 	 */
 	public void printAllWords() {
@@ -136,7 +159,6 @@ public class TabooTree {
 			//throw new TabooTreeException("Query word length does not equal depth of tree");
 		} else {
 			return containsExactHelper(this.root, queryWord, 0);
-			
 		}
 	}
 	public boolean containsExactHelper(Node n, int[] queryWord ,int index) {
@@ -164,16 +186,12 @@ public class TabooTree {
 	 * @throws EncoderException 
 	 */
 	public static void growTree(TabooTree t, String s, int wordLength, int NcodeN , Encoder e) throws TabooTreeException, NodeException, EncoderException {
-		if (t.getNcodeN() != NcodeN || t.getDepth() != (wordLength/NcodeN)) {
-			throw new TabooTreeException("Fuck off");
+		if (t.getNcodeN() != e.getNcodeN() || t.getDepth() != (wordLength/NcodeN)) {
+			throw new TabooTreeException("NcodeN value inconsistancy between TabooTree and Encoder");
 		}else {
 			
 			for(int i=0; i<(s.length()-wordLength+1); i++) {
-				String temp = s.substring(i, i+wordLength);
-				int[] x = e.encode(temp);
-				t.expand(x);
-				x = null;
-				temp = null;
+				t.expandNonRec(e.encode(s.substring(i, i+wordLength)));
 			}	
 		}
 	}
@@ -210,14 +228,14 @@ public class TabooTree {
 	public static void main(String[] args) throws TabooTreeException, NodeException, EncoderException {
 		
 		// Create empty tree
-		TabooTree t = new TabooTree(5, 4, 3);
+		TabooTree t = new TabooTree(5, 5, 2);
 		Encoder e = new Encoder();
 		// Create sequence string that gets encoded
 		t.printAllWords();
-		String s1 = "AAAAANNNNNTTCTGCAGCGCGATAGTCCATCTCTGACACCTGCATCAGCACCCCCCCCTCTCTCTCGCCNNNNCTNCNTNCTNCNNNTNCNTNCNTNCTNCNT";
-		String s2 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-		TabooTree.growTree(t, s1, 15, 5, e);
-		TabooTree.growTree(t, s2, 15, 5, e);
+		String s1 = "AAAAANNNNN";
+		String s2 = "AAAAAAAAAA";
+		TabooTree.growTree(t, s1, 10, 5, e);
+		TabooTree.growTree(t, s2, 10, 5, e);
 		t.printAllWords();
 		
 		
@@ -234,12 +252,14 @@ public class TabooTree {
 	
 		System.out.println("-------------------");
 		
-		int[] x = {2056,3121,2423};
+		int[] x = {2056,3121};
 		System.out.println(t.contains(x));
-		int[] y = {206,3121,2423};
+		int[] y = {0,3124};
 		System.out.println(t.contains(y));
 		
-	
+		
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		
 		
 	}// End Main
 

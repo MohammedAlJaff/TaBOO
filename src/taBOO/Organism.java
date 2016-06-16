@@ -6,7 +6,6 @@ import java.util.*;
 import taBOO.FastaChunk.FastaChunkException;
 
 public class Organism {
-
 	
 	/**
 	 * Organism identifier. Taken from the FASTA file name.
@@ -17,7 +16,6 @@ public class Organism {
 	 * 
 	 */
 	List<PartialOrganism> partialGenomes;
-	
 	
 	//Constructors ::::::::::::::::::::::::::::::::::::::::::::::::::::
 /**
@@ -39,7 +37,6 @@ public class Organism {
 	}
 	
 	// Methods:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-	
 	/**
 	 * This method takes in a fasta file url and  segments it into it's constituent header+body parts
 	 * By this we mean that the reutrn is a list of Strings where each string is a single header + sequence body.
@@ -114,6 +111,21 @@ public class Organism {
 		
 	}
 
+	/**
+	 * Returns the total number of bases in the whole
+	 * genome of the calling organism. This is equal to
+	 * the sum of all lengths of all its partialGenomes
+	 * @return
+	 */
+	public int getTotalGenomeLength() {
+		int sum=0;	
+		
+		for (PartialOrganism p: this.partialGenomes) {
+			sum = sum + p.getSeqLength();
+		}
+		return sum;
+	}
+	
 	public List<PartialOrganism> getPartials(){
 		
 		List<PartialOrganism> temp = new ArrayList<PartialOrganism>(this.partialGenomes.size());

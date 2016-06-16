@@ -39,6 +39,25 @@ public class TabooTreeTest {
 		int[] w6 = {3, 2, 2, 2, 3};	
 	}
 	
+		
+	@Test
+	public void expandNonRecTest1() throws TabooTreeException	{
+		
+		TabooTree t1 = new TabooTree(5, 5, 5);
+		int[] w1 = {1, 2, 3, 4, 5};
+		int[] w2 = {1, 2, 3, 4, 5};
+		int[] w3 = {1, 2, 2, 2, 2};
+		int[] w4 = {1, 2, 2, 2, 3};
+		int[] w5 = {2, 2, 2, 2, 3};
+		int[] w6 = {3, 2, 2, 2, 3};	
+		
+		t1.expandNonRec(w1);
+		
+		t1.printAllWords();
+		
+		
+	}
+	
 	/**
 	 * Uncertain about the need for the method.
 	 * @throws TabooTreeException
