@@ -1,5 +1,9 @@
 package taBOO;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -58,7 +62,7 @@ public class FilterEngine {
 		// Creating a Dictree for borg
 		//System.out.print("Creating and populating tree with seq from: "+borg.getGi()+"...");
 		Dictree bdt = Dictree.createDictree(borg, e, seqWordLength, NcodeN);
-		//System.out.println("Done.");
+		System.out.println("Dictree complete.");
 		
 		ArrayList<HashMap<Integer, ArrayList<int[]>>> h = new ArrayList<HashMap<Integer, ArrayList<int[]>>>(thresh+1);
 		
@@ -70,20 +74,24 @@ public class FilterEngine {
 		int hitsFound = 0;
 		for(int i=0; i<initialSurvivorIndexList.size(); i++) {
 			
+			System.out.println("\tPartial nr:" + i);
+			
 			for(int j=0; j<initialSurvivorIndexList.get(i).size(); j++) {
 				
 				int tempPos = initialSurvivorIndexList.get(i).get(j);
-				//System.out.println(tempPos);
+				if(j%100000==0) {
+					System.out.println("\t\tSeq nr. " + j + " out of " + initialSurvivorIndexList.get(i).size() );
+				}
 				String tempSeq = aorg.getPartials().get(i).getSeq().substring(tempPos, tempPos+seqWordLength);
 				String tempSeqRev = SequenceTools.reverseStrandCreator(tempSeq);
-				long t0 = System.currentTimeMillis();
+				//long t0 = System.currentTimeMillis();
 				if(!bdt.containsWithin(e.encode(tempSeq), thresh, e, h) && !bdt.containsWithin(e.encode(tempSeqRev), thresh, e, h))  {
 					survivorIndexList.get(i).add(tempPos);
 					//System.out.println(tempSeq);
 					hitsFound++;
 				}
-				long t1 = System.currentTimeMillis();
-				System.out.println("Elapsed time: " + (t1-t0) + "msek.");
+				//long t1 = System.currentTimeMillis();
+				//System.out.println("Elapsed time: " + (t1-t0) + "msek.");
 			}
 		}
 		
@@ -92,30 +100,62 @@ public class FilterEngine {
 	}
 	
 
+	public static void resultsToFile(Organism o, ArrayList<ArrayList<Integer>> survivorIndexList, int seqWordLength) throws IOException {
+		
+		File f = new File("PostFilter"+o.getGi());
+		FileWriter fw = new FileWriter(f);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		if( (survivorIndexList.size() != o.getNumbPartials()) ) {
+			throw new RuntimeException("Survvivor does not match");
+		};
+		
+		for(int i = 0; i<survivorIndexList.size(); i++) {
+			
+			for(int j=0; j<survivorIndexList.get(i).size(); j++) {
+				
+				int pos = survivorIndexList.get(i).get(j);
+				String outString = o.getPartials().get(i).getSeq().substring(pos, pos+seqWordLength);
+				//bw.write(pos + ", " + outString+"\n");
+				bw.write(outString+"\n");
+				
+			}
+		}
+		
+		bw.close();
+		
+	
+		
+	}
 	
 	
-	
-	public static void main(String[] args) throws EncoderException {
+	public static void main(String[] args) throws EncoderException, IOException {
 		
 		
-		Organism a = new Organism("orgA.txt");
+		Organism a = new Organism("Mt.fna");
 		
-		Organism b1 = new Organism("orgB.txt");
-		Organism b2 = new Organism("orgB2.txt");
+		Organism b1 = new Organism("Ml2.fna");
+		Organism b2 = new Organism("Mb.fna");
+		Organism b3 = new Organism("Ms.fna");
+		Organism b4 = new Organism("Ma.fna");
 		
 		Encoder e = new Encoder(5);
-		Organism[] borgs = {b1, b2}; 
+		Organism[] borgs = {b1, b2, b3, b4}; 
 		
 		
-		ArrayList<ArrayList<Integer>> x = getInitialList(a, 10);
+		ArrayList<ArrayList<Integer>> x = getInitialList(a, 15);
 		System.out.println(x.get(0).size());
 		
 		for(Organism b : borgs) {	
-			x = filter(a, b, 10, 3, e, 5, x);
+			System.out.println("Filtering against: " + b.getGi());
+			x = filter(a, b, 15, 0, e, 5, x);
 			System.out.println(x.get(0).size());
 		}
 		
 
+		resultsToFile(a, x, 15);
+		
+		
 		
 		
 		
