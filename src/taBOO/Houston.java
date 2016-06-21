@@ -14,7 +14,7 @@ public class Houston {
 	public static void main(String[] args) throws IOException, SetupException, EncoderException {
 		int wordLength = Setup.checkWordLength(args[2]);
 		int mismatchThresh = Setup.checkMismatchThresh(args[3]);
-		String outputDir = args[4];
+		String outputDir = Setup.directoryExists(args[4]);
 		
 		// SystemSetup
 		List<File> aorgFolders = Setup.getAllFolders(args[0]); 

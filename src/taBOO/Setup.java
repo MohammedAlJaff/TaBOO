@@ -286,6 +286,19 @@ public class Setup {
 	}
 	
 	/**
+	 * Checks if the directory exists 
+	 * @param url path to directory
+	 * @return true if directory exists, false otherwise
+	 * @throws SetupException
+	 */
+	public static String directoryExists(String url) throws SetupException {
+		File f = new File(url);
+		if (f.exists()) return url;
+		
+		throw new SetupException("Directory (" + url + ") does not exist!");
+	}
+	
+	/**
 	 * Only for testing purposes
 	 * @param url
 	 * @return
