@@ -212,6 +212,80 @@ public class Setup {
 	}
 	
 	/**
+	 * Checks if the input String can be properly parsed to an integer. If so, this method
+	 * also checks if the parsed string is divisible by 3,4 or 5 and is not equal to zero.
+	 * @param wordLengthString The word length as a String
+	 * @return the word length as an acceptable integer
+	 * @throws SetupException
+	 */
+	public static int checkWordLength(String wordLengthString) throws SetupException {
+		String errorMsg = "Parameter word length: expected postive integer divisible by 3,4 or 5. (Was \"";
+		int wordLength = 0;
+		
+		try {
+			wordLength = Integer.parseInt(wordLengthString);
+			
+			if(wordLength == 0) {
+				throw new SetupException(errorMsg + wordLength + "\")");
+			}
+			
+			if(wordLength%3 != 0) {
+				if(wordLength%4 != 0) {
+					if(wordLength%5 != 0) {
+						throw new SetupException(errorMsg + wordLength + "\")");
+					}
+				}
+			}
+			
+			
+		}
+		catch (Exception e){
+			throw new SetupException(errorMsg + wordLengthString + "\")");
+		}
+		return wordLength;
+	}
+	
+	/**
+	 * Checks if the input String can be properly parsed to an integer. 
+	 * If so, the parsed String is returned.
+	 * @param threshString The amount of tolerated mismatches as a String
+	 * @return the tolerated mismatches as an integer
+	 * @throws SetupException
+	 */
+	public static int checkMismatchThresh(String threshString) throws SetupException {
+		String errorMsg = "Parameter Mismatch threshold: expected positive integer. (Was \"";
+		int thresh = 0;
+		
+		try {
+			thresh = Integer.parseInt(threshString);
+			if(thresh < 0) {
+				throw new SetupException(errorMsg + thresh + "\")");
+			}
+		}
+		catch (Exception e) {
+			throw new SetupException(errorMsg + threshString + "\")");
+		}
+		
+		return thresh;
+		}
+	
+	/**
+	 * Checks which NcodeN to use in descending order based on the word length. 
+	 * An NcodeN of 5 is preferred over an NcodeN of 3.
+	 * @param wordLength the word length to be used. This parameter is expected to be a valid word length.
+	 * @return the NcodeN based on the word length
+	 */
+	public static int getNcodeN(int wordLength) {
+		if(wordLength%5 == 0) {
+			return 5;
+		}
+		else if(wordLength%4 == 0) {
+			return 4;
+		}
+		return 3;
+	}
+	
+	/**
 	 * Only for testing purposes
 	 * @param url
 	 * @return
@@ -248,7 +322,8 @@ public class Setup {
 	
 	public static void main(String[] args) throws SetupException, InterruptedException, IOException {
 		Scanner scan = new Scanner(System.in);
-		
+		System.out.println(Setup.getNcodeN(Setup.checkWordLength("12")));
+		System.out.println(Setup.checkMismatchThresh("0"));
 		//String orgAfolder = "C:/Users/erique/Desktop/org/orgAfolder";
 		//String orgBfolder = "C:/Users/erique/Desktop/org/orgBfolder";
 		System.out.println("Absolute path to organism A folder:");
