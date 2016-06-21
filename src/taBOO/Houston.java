@@ -14,6 +14,7 @@ public class Houston {
 	public static void main(String[] args) throws IOException, SetupException, EncoderException {
 		int wordLength = Setup.checkWordLength(args[2]);
 		int mismatchThresh = Setup.checkMismatchThresh(args[3]);
+		String outputDir = args[4];
 		
 		// SystemSetup
 		List<File> aorgFolders = Setup.getAllFolders(args[0]); 
@@ -45,7 +46,7 @@ public class Houston {
 
 				survivorIndexList = FilterEngine.filter(a, b, wordLength, mismatchThresh, e, NcodeN, survivorIndexList);
 			}
-			FilterEngine.resultsToFile(a, survivorIndexList, wordLength);
+			FilterEngine.resultsToFile(a, survivorIndexList, wordLength, outputDir);
 		}
 		
 		

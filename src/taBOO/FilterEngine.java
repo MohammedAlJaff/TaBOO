@@ -100,9 +100,9 @@ public class FilterEngine {
 	}
 	
 
-	public static void resultsToFile(Organism o, ArrayList<ArrayList<Integer>> survivorIndexList, int seqWordLength) throws IOException {
+	public static void resultsToFile(Organism o, ArrayList<ArrayList<Integer>> survivorIndexList, int seqWordLength, String outputDir) throws IOException {
 		
-		File f = new File("PostFilter"+o.getGi());
+		File f = new File(outputDir + "/PostFilter.txt");
 		FileWriter fw = new FileWriter(f);
 		BufferedWriter bw = new BufferedWriter(fw);
 		
@@ -151,9 +151,6 @@ public class FilterEngine {
 			x = filter(a, b, 15, 0, e, 5, x);
 			System.out.println(x.get(0).size());
 		}
-		
-
-		resultsToFile(a, x, 15);
 		
 		
 		
