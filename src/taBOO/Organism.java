@@ -3,9 +3,11 @@ package taBOO;
 import java.io.*;
 import java.util.*;
 
+import taBOO.Encoder.EncoderException;
 import taBOO.FastaChunk.FastaChunkException;
 
 public class Organism {
+	
 	
 	/**
 	 * Organism identifier. Taken from the FASTA file name.
@@ -16,6 +18,7 @@ public class Organism {
 	 * 
 	 */
 	List<PartialOrganism> partialGenomes;
+	Dictree dt = null;
 	
 	//Constructors ::::::::::::::::::::::::::::::::::::::::::::::::::::
 /**
@@ -24,22 +27,22 @@ public class Organism {
  */
 	public Organism(String url) {
 		
-		try {
-			
+		try {		
 			File f = new File(url);
 			this.gi = url;
 			partialOrganismListCreator(fastaSpliter(f));
 		
-		} catch(Exception exp){
-			
+		} catch(Exception exp){	
 			exp.printStackTrace();
 		}	
 	}
 	
 	// Methods:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	/**
-	 * This method takes in a fasta file url and  segments it into it's constituent header+body parts
-	 * By this we mean that the reutrn is a list of Strings where each string is a single header + sequence body.
+	 * This method takes in a fasta file url and  segments it into it's 
+	 * constituent header+body parts
+	 * By this we mean that the reutrn is a list of Strings where each string is a 
+	 * single header + sequence body.
 	 * @param f
 	 * @return
 	 * @throws IOException 
@@ -136,29 +139,71 @@ public class Organism {
 		return temp;
 	}
 	
+	public int getNumbPartials() {
+		return this.partialGenomes.size();
+	}
+	
+	
+	/**
+	 * WARNING: FOR LAGRE GENOME SIZES, THIS MIGHT BE VERY INEFFICIENT.
+	 * DEAL WITH THIS LATER ON!
+	 * @throws OrganismException
+	 */
+	public void createDictree() throws OrganismException {
+		if(this.dt!=null) {
+			throw new OrganismException("Organism already has a Dictree");
+		} else {
+		
+			
+		}
+	}
+	
+	/**
+	 * Returns the identity of the organism which is obtained 
+	 * @return
+	 */
 	public String getGi() {
 		return gi;
 	}
 
-	// MAIN :::::::::::::::::::::::::::::::::::::::::::::::::::::
-	public static void main(String [] args) throws IOException{
-		// TODO Auto-generated method stub
-		
-		// FastaSpliter test
-		
-		// Test Organism creator.
-		
-		Organism x = new Organism("text1.txt");
-		
-		System.out.println("Printing all partials");
-		System.out.println("-------------------------------");
-		List<PartialOrganism> p = x.getPartials();
-		
-		for( PartialOrganism a: p){
-			System.out.println(a+"\n");
-			
+	/**
+	 * Returns true is there's a sequence in Organism that's
+	 * identical to the query sequence in it.
+	 * @param query
+	 * @return
+	 * @throws EncoderException 
+	 */
+	public boolean containsEaxaktly(int[] query) throws EncoderException {
+		return this.dt.containsEaxaktly(query);
+	}
+	
+	
+	// Custom class exception ::::::::::::::::::::::::::::::::::
+	/**
+	 * Custom Organism specific Exception class.
+	 * @author RockefellerSuperstar
+	 *
+	 */
+	class OrganismException extends Exception{		
+		public OrganismException(String msg) {
+			super(msg);
 		}
-		System.out.println(x.getGi());
+	}
+	
+	
+	// MAIN ::::::::::::::::::::::::::::::::::::::::::::::::::::
+	public static void main(String [] args) throws IOException, OrganismException, EncoderException{
+		Organism o1 = new Organism("hiv.fna");
+		o1.getGi();
+		o1.createDictree();
+	
+		int[] query1 =  {1, 120, 135, 1527} ;
+		int[] query2 =  {1, 120, 135, 1525} ;
+		
+		boolean b1 = o1.containsEaxaktly(query1);
+		boolean b2 = o1.containsEaxaktly(query2);
+		
+		
 		
 		
 		

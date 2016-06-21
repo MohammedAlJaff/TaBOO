@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import taBOO.Encoder.EncoderException;
+import taBOO.Organism.OrganismException;
+
 public class OrganismTest {
 
 	@Test
@@ -49,4 +52,19 @@ public class OrganismTest {
 		assertArrayEquals(expected, actual);
 	}
 
+	@Test
+	public void getNumbPartialTest1() {
+		randomFastaFile f1 = new randomFastaFile(
+				"getNumbTest1.txt", 100, 0.0, 112, false, 80 );
+		f1.toFile();
+		Organism o1 = new Organism("getNumbTest1.txt");
+		assertEquals(112, o1.getNumbPartials());
+	}
+
+
+	
+	
+	
+	
+	
 }

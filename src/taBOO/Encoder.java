@@ -1,5 +1,6 @@
 package taBOO;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Encoder {
@@ -171,17 +172,21 @@ public class Encoder {
 	 * @param mmluN The mismatch matrix
 	 * @return False if the number of mismatches between the two input sequences
 	 * is strictly greater than k. True otherwise.
+	 * @throws EncoderException 
 	 */
-	public boolean withinKMismatches (int[] s1, int[] s2, int k){	
-		int n = 0;	
-
-		for (int i=0; i<s1.length; i++){		
-			n = n + this.mmlu[s1[i]][s2[i]];
-			if(n>k) {
-				return false;
-			}
-		}		
-		return true;
+	public boolean withinKMismatches (int[] s1, int[] s2, int k) throws EncoderException{	
+		if(s1.length==s1.length) {
+			int n = 0;	
+			for (int i=0; i<s1.length; i++){		
+				n = n + this.mmlu[s1[i]][s2[i]];
+				if(n>k) {
+					return false;
+				}
+			}		
+			return true;
+		} else {
+			throw new EncoderException("Error: sequences being compared must be of equal lengths");
+		}
 	}
 
 	/**
@@ -202,6 +207,39 @@ public class Encoder {
 		return n;
 	}
 	
+	public int getMismatch(int row, int column) {
+		return this.mmlu[row][column];
+	}
+	
+	
+	public static HashMap<Integer, ArrayList<int[]>> getListIndicator(Encoder e, int thresh) {
+		
+		HashMap<Integer, ArrayList<int[]>> listIndicator = new HashMap<Integer, ArrayList<int[]>>(10000000);
+		int size = (int)Math.pow(5, e.getNcodeN());
+		
+		for(int i = 0; i < size; i++) {
+			
+			ArrayList<int[]> whichList = new ArrayList<int[]>();
+			
+			for(int j = 0; j < size; j++) {
+				
+				if(e.getMismatch(i, j) <= thresh) {
+					int[] x = new int[2];
+					x[0] = j;
+					x[1] = e.getMismatch(i, j);
+				
+					whichList.add(x);
+				}
+			}
+			
+			listIndicator.put(i, whichList);
+		}
+		
+		return listIndicator;
+	}
+	
+	
+	
 	/**
 	 * Custom classException
 	 * @author RockefellerSuperstar
@@ -214,19 +252,31 @@ public class Encoder {
 	}
 	
 	
-	public static void main(String [] args) throws EncoderException {
-		int l = (int)Math.pow(5, 2);
-		Encoder e = new Encoder(2);
-		for(int i = 0; i < l; i++) {
-			System.out.println(e.reConversionMap.get(i));
-		}
-
-		for(int i = 0; i < l; i++) {
-			for(int j = 0; j < l; j++) {
-				System.out.print(e.mmlu[i][j] + " ");
+	public static void main(String [] args) throws EncoderException, InterruptedException {
+	
+		//Encoder e = new Encoder(5);
+		//HashMap<Integer, ArrayList<int[]>> l = Encoder.getListIndicator(e, 2);
+		short[][] a = new short[3000][3000];
+		for(int i = 0; i < 3000; i++) {
+			for(int j = 0; j < 3000; j++) {
+				a[i][j] = (short)(i+j);
 			}
-			System.out.println();
 		}
+		//System.out.println(l.get(1).size());
+		
+		Thread.sleep(10000);
+		
+		for(int i = 0; i < 3000; i++) {
+			for(int j = 0; j < 3000; j++) {
+			if(i+j > 4000900) {
+				System.out.println("hej");
+			}
+			}
+		}
+		
+		
+		
+		
 
 	}// end Main
 

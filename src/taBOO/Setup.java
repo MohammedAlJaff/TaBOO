@@ -242,7 +242,8 @@ public class Setup {
 	}
 
 	
-	
+//	String orgAfolder = "/Users/RockefellerSuperstar/Desktop/test1/orgA";
+//	String orgBfolder = "/Users/RockefellerSuperstar/Desktop/test1/orgB";
 	
 	
 	public static void main(String[] args) throws SetupException, InterruptedException, IOException {

@@ -31,7 +31,7 @@ public class testRunMe {
 		Aorgs[0] = hiv;
 		
 		int NcodeN = 5;
-		int wordLength = 20;
+		int wordLength = 10;
 		int depth = wordLength/NcodeN;
 		
 		TabooTree t = new TabooTree(NcodeN, 5, depth);
@@ -47,7 +47,7 @@ public class testRunMe {
 		System.out.println("----------------------");
 		
 		System.out.println("Filtering..." );
-		FilterEngine.filterEngine(Aorgs, t, NcodeN);
+		
 
 	}
 

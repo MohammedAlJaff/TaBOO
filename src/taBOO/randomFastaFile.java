@@ -71,7 +71,7 @@ public class randomFastaFile {
 		this.lineLength = lineLength;
 		numberOfFiles++;
 		
-		System.out.println("Creating fasta sequence with specified parameters");
+		//System.out.println("Creating fasta sequence with specified parameters");
 		checkParameters();
 		this.fastaFile = fastaGenerator();
 	}
@@ -177,7 +177,7 @@ public class randomFastaFile {
 	 * The method check for the validity of the inputed parameters to the constructor.
 	 */
 	private void checkParameters() {
-		System.out.println("Checking parameters...");
+	//	System.out.println("Checking parameters...");
 		if(this.length < 0) {
 			System.out.println("Problem with length, setting to default value: " + defaultLength);
 			this.length = 10000;
@@ -191,7 +191,7 @@ public class randomFastaFile {
 		if(this.lineLength < 0) {
 			System.out.println("Problem with lineLength, setting to default value: " + defaultLineLength);
 		}
-		System.out.println("Done checking parameters");
+		//System.out.println("Done checking parameters");
 	}
 	
 	/**
