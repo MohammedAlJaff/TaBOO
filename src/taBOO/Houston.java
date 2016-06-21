@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class Houston {
 
 	public static void main(String[] args) throws IOException, SetupException, EncoderException {
-		int wordLength = Integer.parseInt(args[2]);
-		int mismatchThresh = Integer.parseInt(args[3]);
+		int wordLength = Setup.checkWordLength(args[2]);
+		int mismatchThresh = Setup.checkMismatchThresh(args[3]);
 		
 		// SystemSetup
 		List<File> aorgFolders = Setup.getAllFolders(args[0]); 
@@ -35,17 +35,7 @@ public class Houston {
 		}
 		
 		
-		int NcodeN; 
-		
-		if( wordLength%5==0){
-			NcodeN = 5;
-		} else if(wordLength%4==0) {
-			NcodeN = 4;
-		} else if( wordLength%3==0) {
-			NcodeN = 3;
-		} else {
-			NcodeN =1;
-		}
+		int NcodeN = Setup.getNcodeN(wordLength);
 		
 		Encoder e = new Encoder(NcodeN);
 		
