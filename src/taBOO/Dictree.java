@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import taBOO.Encoder.EncoderException;
 import taBOO.FastaChunk.FastaChunkException;
+// BLA
 
 /**
  * WARNING: NOT DOC'ED!
